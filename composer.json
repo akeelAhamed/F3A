@@ -1,0 +1,19 @@
+{
+    "name": "f3a/php_framework",
+    "description": "A simple framework written in PHP",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Akeel ahamed",
+            "email": "ahamedalakeel@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

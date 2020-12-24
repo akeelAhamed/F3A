@@ -1,0 +1,12 @@
+# Disable directory browsing 
+Options -Indexes
+
+# re-route all our request to index.php
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ./index.php?url=$1 [NC,L,QSA]
+
+#force https
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
