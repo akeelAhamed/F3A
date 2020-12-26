@@ -93,6 +93,28 @@ function back($message='', $success=false)
 }
 
 /**
+ * Get old data from form
+ * 
+ * @param string  $key 	input key
+ * @param string  $default  default value
+ * 
+ * @return array|object|string|null
+ */
+function old($key='', $default='')
+{
+	if(Utill::hasSession('__old')){
+		if ($key == '') {
+			$default = $_SESSION['__old'];
+			Utill::unsetSession('__old');
+		} else if (isset($_SESSION['__old'][$key])) {
+			$default = $_SESSION['__old'][$key];
+			unset($_SESSION['__old'][$key]);
+		}
+	}
+	return $default;
+}
+
+/**
  * Similar to laravel DD Die function
  */
 function dd(...$agrs)

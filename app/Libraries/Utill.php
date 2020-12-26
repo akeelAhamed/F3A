@@ -289,6 +289,18 @@ class Utill{
 	}
 
 	/**
+	 * Set old input from form
+	 * 
+	 * @param array $inputs  inputs
+	 * 
+	 * @return bool
+	 */
+	public static function old($inputs)  
+	{
+		return $_SESSION['__old'] = $inputs;
+	}
+
+	/**
 	 * Date difference
 	 */
 	public static function dateDiff($from, $formate='m', $to = null)
@@ -346,20 +358,5 @@ class Utill{
 	public static function hashPassword($password, $bcrypt=PASSWORD_DEFAULT)
 	{
 		return password_hash($password, $bcrypt);
-	}
-
-	/**
-	 * Send sms to the user
-	 * 
-	 * @param int    $to  Receiver mobile number
-	 * @param string $msg Message to sent
-	 * 
-	 * @return bool SMS Sent Status
-	 */
-	public static function sms($to, $msg)
-	{
-		$send = 'jh';//strtoupper(file_get_contents("http://sms.ftrap.com/api/sendmsg.php?user=aaranasms&pass=ft@123&sender=AARANA&phone=".$to."&text=".urlencode($msg)."&priority=ndnd&stype=normal"));
-
-		return (strpos($send, 'S.') !== false)?true:false;
 	}
 }
