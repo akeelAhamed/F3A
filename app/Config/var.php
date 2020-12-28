@@ -71,3 +71,15 @@ define('DB_PASSWORD', '');
  * if it's being hosted from subdirectory in the server
  */
 define('BASE_URL', baseUrl());
+
+/**
+ * Google reCAPTCHA site key
+ */
+define('CAPTCHA_SITEKEY', '');
+
+/**
+ * Google secret  site key
+ */
+define('CAPTCHA_SECRETKEY', '');
+
+//// CUSTOM CONFIG VARIABLE ////

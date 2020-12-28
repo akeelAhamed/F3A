@@ -107,16 +107,6 @@ class Request
     }
 
     /**
-     * Get all inputs/files from the input
-     *  
-     * @return array
-     */
-    public function all()
-    {
-        return array_merge($this->input(), $this->file());
-    }
-
-    /**
      * Check for the input exist
      *
      * @param string $key Input key
@@ -140,6 +130,16 @@ class Request
     }
 
     /**
+     * Returns the IPv4 address or a string containing the unmodified hostname on failure
+     *
+     * @return string
+     */
+    public function ip()
+    {
+        return \gethostbyname($this->header->get('HTTP_HOST'));
+    }
+
+    /**
      * Determine if the request is the result of an AJAX call.
      *
      * @return bool
@@ -148,7 +148,6 @@ class Request
     {
         return $this->isXmlHttpRequest();
     }
-
 
     /**
      * Returns true if the request is a XMLHttpRequest.
@@ -187,14 +186,18 @@ class Header {
      * 
      * Returns a header value by name.
      *
-     * @param string      $key     The header name
+     * @param string|null $key     The header name
      * @param string|null $default The default value
      * 
-     * @return string|string[]|null The first header value or default value if $first is true, an array of values otherwise
+     * @return string|array|null The first header value or default value if $first is true, an array of values otherwise
      */
-    public function get($key, $default = null)
+    public function get($key='', $default = null)
     {
         $header = $this->server;
+
+        if ($key == '') {
+            return $header;
+        }
 
         if (!\array_key_exists($key, $header)) {
             return $default;

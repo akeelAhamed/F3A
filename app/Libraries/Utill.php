@@ -359,4 +359,37 @@ class Utill{
 	{
 		return password_hash($password, $bcrypt);
 	}
+
+	
+    /**
+     * Recaptcha verification
+     *
+     * @param  \App\Helpers\Request  $request
+     * @return bool
+     */
+    public static function isHuman($request)
+    {
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        
+        $data = [
+            'secret' => CAPTCHA_SECRETKEY,
+            'response' => $request->input('_captcha'),
+            'remoteip' => $request->ip()
+        ];
+        $options = [
+            'http' => [
+            'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method' => 'POST',
+            'content' => http_build_query($data)
+            ]
+        ];
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        $resultJson = json_decode($result);
+        if ($resultJson->success != true || $resultJson->score < 0.3) {
+            return false;
+        }
+
+        return true;
+    }
 }

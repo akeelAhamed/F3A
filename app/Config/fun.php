@@ -1,7 +1,17 @@
 <?php
 
-use App\Helpers\Route;
 use App\Libraries\Utill;
+use App\Helpers\Request;
+
+/**
+ * App request fuction
+ * 
+ * @return \App\Helpers\Request
+ */
+function request()
+{
+    return new Request();
+}
 
 /**
  * Gets BASE URL
@@ -14,7 +24,8 @@ function baseUrl()
     $pathInfo = pathinfo($currentPath);
     $hostName = $_SERVER['HTTP_HOST'];
     $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
-    return $protocol.$hostName.'/'.basename(getcwd()).'/';
+    
+    return $protocol.$hostName.'/round-table-3/';
 }
 
 /**
@@ -43,12 +54,13 @@ function asset($path, $return=false)
 	if (filter_var($path, FILTER_VALIDATE_URL) === FALSE) {
 		$file = str_replace('/', DS, $path);
 		$file = ROOT_DIR.'assets'.DS .$file;
-		$path = ROOT_URL.'assets/'.$path;
 		if(is_file($file)){
-			$path .= (!empty($path))?'?version='.VERSION:'';
+			$path = ROOT_URL.'assets/'.$path;
+		}else{
+			$path = '';
 		}
 	}
-	
+	$path .= (!empty($path))?'?version='.VERSION:'';
 	if($return){
 		return $path;
 	}
@@ -60,20 +72,26 @@ function asset($path, $return=false)
  * 
  * @param string $to      Path
  * @param string|array  $message Redirect with message
+ * @param string|array  $message Redirect with message
  * @param bool   $danger  Error | Message
  * 
  * @return redirect
  */
-function redirect($to='', $message='', $success=false)
+function redirect($to='', $message='', $inputs='', $success=false)
 {
 	$to = ($to == '')?'./':$to;
-	$to = filter_var($to, FILTER_VALIDATE_URL)?$to:url($to, true);
+	$to = url($to, true);
 	if($message !== ''){
 		$message = (is_array($message))?$message:[$message];
 		Utill::alert($message, $success);
 	}
+	if($inputs !== ''){
+		$inputs = (is_array($inputs))?$inputs:[$inputs];
+		Utill::old($inputs);
+	}
 	echo ('<script type="text/javascript">window.location.href = "'.$to.'";</script>');
 }
+
 
 /**
  * Go to previous page
@@ -129,18 +147,6 @@ function dd(...$agrs)
 		}
 	}
 	
-	die();
-}
-
-/**
- * Abort operation
- *
- * @param int $code
- * @return void
- */
-function abort($code=404)
-{
-	Route::terminate($code);
 	die();
 }
 
@@ -208,14 +214,4 @@ function getCsrf($e=false)
 function csrf($slug=null)
 {
 	echo '<input type="hidden" name="slug" value="'.$slug.'" readonly/><input type="hidden" name="'.CSRF_KEY.'" value="'.getCsrf().'" readonly/>';
-}
-
-/**
- * Get public folder
- *
- * @return string
- */
-function public_folder()
-{
-	return getcwd().'/assets/';
 }
