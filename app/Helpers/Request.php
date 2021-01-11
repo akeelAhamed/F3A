@@ -67,7 +67,7 @@ class Request
     /**
      * Request method
      *
-     * @return void
+     * @return string
      */
     public function method()
     {
@@ -79,7 +79,7 @@ class Request
      *
      * @param string|null $key Input key
      *  
-     * @return void
+     * @return array|null|string
      */
     public function file($key=null)
     {
@@ -95,7 +95,7 @@ class Request
      *
      * @param string|null $key Input key
      *  
-     * @return void
+     * @return array|null|string
      */
     public function input($key=null)
     {
@@ -111,7 +111,7 @@ class Request
      *
      * @param string $key Input key
      * 
-     * @return void
+     * @return bool
      */
     public function hasInput($key, $echo = false)
     {

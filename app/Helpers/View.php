@@ -27,7 +27,12 @@ class View
         $file = self::$path . '/' . $view;
         if(!$isInclude){
             # not for include view
-            $file = is_file($file)?$file:self::$path . '/' . 'errors/404.php';
+            $isFile = is_file($file);
+            $_file = $file;
+            $file = $isFile?$_file:self::$path . '/' . 'errors/view.php';
+            if(!$isFile){
+                $parameters['__view'] = $_file;
+            }
         }
         return self::getContents($file, $parameters, $return);
     }
