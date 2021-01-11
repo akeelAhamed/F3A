@@ -1,5 +1,5 @@
 <?php
-
+use App\Helpers\Route;
 use App\Libraries\Utill;
 use App\Helpers\Request;
 
@@ -25,7 +25,7 @@ function baseUrl()
     $hostName = $_SERVER['HTTP_HOST'];
     $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
     
-    return $protocol.$hostName.'/round-table-3/';
+    return $protocol.$hostName;
 }
 
 /**
@@ -147,6 +147,18 @@ function dd(...$agrs)
 		}
 	}
 	
+	die();
+}
+
+/**
+ * Abort operation
+ *
+ * @param int $code
+ * @return void
+ */
+function abort($code=404)
+{
+	Route::terminate($code);
 	die();
 }
 
