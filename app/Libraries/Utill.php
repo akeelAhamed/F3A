@@ -96,6 +96,40 @@ class Utill{
 	}
 
 	/**
+	 * Get array values for insert
+	 *
+	 * @param array $inputs
+	 * @return array
+	 */
+	public static function getInsert(array $inputs)
+	{
+		return self::arrayExcept($inputs, ["slug", "_captcha", CSRF_KEY]);
+	}
+
+	/**
+	 * Get array except the keys
+	 *
+	 * @param array $array
+	 * @param array $keys
+	 * @return array
+	 */
+	public static function arrayExcept(array $array, array $keys)
+	{
+		return array_diff_key($array, array_flip($keys));
+	}
+	
+	/**
+	 * Convert to array
+	 *
+	 * @param object $array
+	 * @return array
+	 */
+	public static function toArray(object $object)
+	{
+		return (array) $object;
+	}
+
+	/**
 	 * Check if array has key(s)
 	 *
 	 * @param string|array $key

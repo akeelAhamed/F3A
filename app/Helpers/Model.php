@@ -9,13 +9,12 @@ use App\Helpers\DB;
  */
 trait Model
 {
-
     /**
-     * Table name
+     * Table Name
      *
      * @var string
      */
-    public static $table_name;
+    public static $table_name_test;
 
     /**
      * Query where
@@ -150,6 +149,7 @@ trait Model
      */
     public static function create(array $data)
     {
+        $original = $data;
         if(array_keys($data) !== range(0, count($data) - 1)):
             // Single Row converted for app
             $data = [$data];
@@ -177,8 +177,14 @@ trait Model
     
         //Construct our SQL statement
         $sql = "INSERT INTO " . self::$table_name . " (" . implode(", ", $columnNames) . ", created_at, updated_at) VALUES " . implode(", ", $rowsSQL);
+        
+        $status = self::run($sql, $toBind);
 
-        return self::run($sql, $toBind);
+        if($status && count($original) == 1){
+            $original[0]['id'] = self::insertedId();
+            $status = $original[0];
+        }
+        return $status;
     }
 
     /**
@@ -323,7 +329,7 @@ trait Model
      */
     public static function groupBy($col='id')
     {
-        self::$groupBy .= (self::$groupBy == '')?' ORDER BY '.$col:', '.$col;
+        self::$groupBy .= (self::$groupBy == '')?' GROUP BY '.$col:', '.$col;
         return new static();
     }
 

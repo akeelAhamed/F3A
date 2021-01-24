@@ -54,13 +54,9 @@ function asset($path, $return=false)
 	if (filter_var($path, FILTER_VALIDATE_URL) === FALSE) {
 		$file = str_replace('/', DS, $path);
 		$file = ROOT_DIR.'assets'.DS .$file;
-		if(is_file($file)){
-			$path = ROOT_URL.'assets/'.$path;
-		}else{
-			$path = '';
-		}
+		$path = ROOT_URL.'assets/'.$path;
 	}
-	$path .= (!empty($path))?'?version='.VERSION:'';
+	$path .= (is_file($file))?'?version='.VERSION:'';
 	if($return){
 		return $path;
 	}

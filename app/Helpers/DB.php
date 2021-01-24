@@ -89,7 +89,7 @@ class DB
             // Sanitize
             foreach ($data as $key => $value) {
                 $value = ($value)?$value:null;
-                $params[$key] = htmlspecialchars(strip_tags($value));
+                $params[$key] = $value;
             }
         }
 
