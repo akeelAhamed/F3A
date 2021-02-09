@@ -144,6 +144,7 @@ class Route
      */
     public static function init($path)
     {
+        $path = rtrim($path,"/"); // Remove slash at the end
         $desired_route = null;
         $pnf = false; // page not found
 
