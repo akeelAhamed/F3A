@@ -60,8 +60,9 @@ class Request
      */
     protected function setInputs()
     {
+        $get = $this->method == 'POST'?$_GET:[];
         global  ${'_'.$this->method};
-        $this->input = array_merge(${'_'.$this->method}, $_FILES);
+        $this->input = array_merge(${'_'.$this->method}, $_FILES, $get);
     }
     
     /**
