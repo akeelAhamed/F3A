@@ -1,6 +1,6 @@
 {
-    "name": "f3a/php_framework",
-    "description": "A simple framework written in PHP",
+    "name": "akeelahamed/f3a",
+    "description": "A simple framework written in PHP based on Laravel",
     "type": "project",
     "authors": [
         {
